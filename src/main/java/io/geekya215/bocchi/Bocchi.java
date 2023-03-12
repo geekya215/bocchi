@@ -10,7 +10,7 @@ public class Bocchi {
         }
     }
 
-    public Value eval(final byte[] ops) {
+    public Value eval(final byte[] ops, final LocalVars lvs) {
         OperandStack eval = new OperandStack();
 
         int pc = 0;
@@ -19,6 +19,7 @@ public class Bocchi {
             Instruction inst = instructions[op & 0xFF];
 
             switch (inst) {
+                case NOP -> {}
                 case ICONST_M1 -> eval.iconst(-1);
                 case ICONST_0 -> eval.iconst(0);
                 case ICONST_1 -> eval.iconst(1);
@@ -26,6 +27,26 @@ public class Bocchi {
                 case ICONST_3 -> eval.iconst(3);
                 case ICONST_4 -> eval.iconst(4);
                 case ICONST_5 -> eval.iconst(5);
+
+                case BIPUSH -> eval.iconst(ops[++pc]);
+
+                case ILOAD -> eval.push(lvs.iload(ops[++pc]));
+                case ILOAD_0 -> eval.push(lvs.iload((byte) 0));
+                case ILOAD_1 -> eval.push(lvs.iload((byte) 1));
+                case ILOAD_2 -> eval.push(lvs.iload((byte) 2));
+                case ILOAD_3 -> eval.push(lvs.iload((byte) 3));
+
+                case ISTORE -> lvs.istore(ops[++pc], eval.pop());
+                case ISTORE_0 -> lvs.istore((byte) 0, eval.pop());
+                case ISTORE_1 -> lvs.istore((byte) 1, eval.pop());
+                case ISTORE_2 -> lvs.istore((byte) 2, eval.pop());
+                case ISTORE_3 -> lvs.istore((byte) 3, eval.pop());
+
+                case POP -> eval.pop();
+                case POP2 -> eval.pop2();
+
+                case DUP -> eval.dup();
+                case SWAP -> eval.swap();
 
                 case IADD -> eval.iadd();
                 case ISUB -> eval.isub();
@@ -41,6 +62,8 @@ public class Bocchi {
                 case IAND -> eval.iand();
                 case IOR -> eval.ior();
                 case IXOR -> eval.ixor();
+
+                case IINC -> lvs.iinc(ops[++pc], ops[++pc]);
 
                 case IRETURN -> {
                     return eval.pop();

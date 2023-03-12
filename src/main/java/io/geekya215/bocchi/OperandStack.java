@@ -7,6 +7,27 @@ public class OperandStack extends ArrayDeque<Value> {
         push(Value.of(i));
     }
 
+    void pop2() {
+        Value discard = pop();
+        if (discard.type() == Type.J || discard.type() == Type.D) {
+            return;
+        }
+        pop();
+    }
+
+    void dup() {
+        assert peek() != null;
+        Value v = peek().copy();
+        push(v);
+    }
+
+    void swap() {
+        Value v1 = pop();
+        Value v2 = pop();
+        push(v1);
+        push(v2);
+    }
+
     void iadd() {
         Value v1 = pop();
         Value v2 = pop();
@@ -53,6 +74,7 @@ public class OperandStack extends ArrayDeque<Value> {
         int res = (int) (v1.value() << v2.value());
         push(Value.of(res));
     }
+
     void ishr() {
         Value v1 = pop();
         Value v2 = pop();
