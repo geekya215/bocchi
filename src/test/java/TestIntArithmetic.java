@@ -30,6 +30,7 @@ public class TestIntArithmetic {
         assertEquals(Type.I, res.type(), "Return type is int");
         assertEquals(-2, (int) res.value(), "Return value should be -2");
     }
+
     @Test
     public void int_mul_works() {
         byte[] buf = {ICONST_5.B(), ICONST_3.B(), IMUL.B(), IRETURN.B()};
@@ -60,6 +61,31 @@ public class TestIntArithmetic {
         assertEquals(Type.I, res.type(), "Return type is int");
         assertEquals(-5, (int) res.value(), "Return value should be -5");
     }
+
+    @Test
+    public void int_shl_works() {
+        byte[] buf = {ICONST_5.B(), ICONST_3.B(), ISHL.B(), IRETURN.B()};
+        Value res = bocchi.eval(buf);
+        assertEquals(Type.I, res.type(), "Return type is int");
+        assertEquals(96, (int) res.value(), "Return value should be 96");
+    }
+
+    @Test
+    public void int_shr_works() {
+        byte[] buf = {ICONST_5.B(), ICONST_3.B(), ISHR.B(), IRETURN.B()};
+        Value res = bocchi.eval(buf);
+        assertEquals(Type.I, res.type(), "Return type is int");
+        assertEquals(0, (int) res.value(), "Return value should be 0");
+    }
+
+    @Test
+    public void int_ushr_works() {
+        byte[] buf = {ICONST_5.B(), ICONST_3.B(), IUSHR.B(), IRETURN.B()};
+        Value res = bocchi.eval(buf);
+        assertEquals(Type.I, res.type(), "Return type is int");
+        assertEquals(0, (int) res.value(), "Return value should be 0");
+    }
+
     @Test
     public void int_and_works() {
         byte[] buf = {ICONST_5.B(), ICONST_3.B(), IAND.B(), IRETURN.B()};
@@ -67,6 +93,7 @@ public class TestIntArithmetic {
         assertEquals(Type.I, res.type(), "Return type is int");
         assertEquals(1, (int) res.value(), "Return value should be 1");
     }
+
     @Test
     public void int_or_works() {
         byte[] buf = {ICONST_5.B(), ICONST_3.B(), IOR.B(), IRETURN.B()};
@@ -74,6 +101,7 @@ public class TestIntArithmetic {
         assertEquals(Type.I, res.type(), "Return type is int");
         assertEquals(7, (int) res.value(), "Return value should be 7");
     }
+
     @Test
     public void int_xor_works() {
         byte[] buf = {ICONST_5.B(), ICONST_3.B(), IXOR.B(), IRETURN.B()};

@@ -47,6 +47,26 @@ public class OperandStack extends ArrayDeque<Value> {
         push(Value.of((int) -res.value()));
     }
 
+    void ishl() {
+        Value v1 = pop();
+        Value v2 = pop();
+        int res = (int) (v1.value() << v2.value());
+        push(Value.of(res));
+    }
+    void ishr() {
+        Value v1 = pop();
+        Value v2 = pop();
+        int res = (int) (v1.value() >> v2.value());
+        push(Value.of(res));
+    }
+
+    void iushr() {
+        Value v1 = pop();
+        Value v2 = pop();
+        int res = (int) (v1.value() >>> v2.value());
+        push(Value.of(res));
+    }
+
     void iand() {
         Value v1 = pop();
         Value v2 = pop();

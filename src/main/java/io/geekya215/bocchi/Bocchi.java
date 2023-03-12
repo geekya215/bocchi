@@ -34,6 +34,10 @@ public class Bocchi {
                 case IREM -> eval.irem();
                 case INEG -> eval.ineg();
 
+                case ISHL -> eval.ishl();
+                case ISHR -> eval.ishr();
+                case IUSHR -> eval.iushr();
+
                 case IAND -> eval.iand();
                 case IOR -> eval.ior();
                 case IXOR -> eval.ixor();
