@@ -1,5 +1,6 @@
 package io.geekya215.bocchi;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.jar.JarFile;
@@ -10,7 +11,7 @@ import static io.geekya215.bocchi.BuildInfo.*;
 public final class Arguments {
     private boolean help;
     private boolean version;
-    private String classpath;
+    private String classpath = ".";
     private String mainClass;
     private String[] mainClassArgs;
 
@@ -66,20 +67,20 @@ public final class Arguments {
 
         if (args[index].equals("-jar")) {
             if (index + 1 < args.length && !args[index + 1].startsWith("-")) {
+                classpath = args[index + 1];
                 mainClass = processJar(args[index + 1]);
                 index += 2;
                 if (index < args.length) {
                     mainClassArgs = new String[args.length - index];
                     System.arraycopy(args, index, mainClassArgs, 0, args.length - index);
-                    return;
                 }
             } else {
                 help = true;
-                return;
             }
+            return;
         }
 
-        if (index < args.length && !args[index].startsWith("-")) {
+        if (!args[index].startsWith("-")) {
             mainClass = args[index];
             index += 1;
             if (index < args.length) {
@@ -97,8 +98,9 @@ public final class Arguments {
             String mainClass = jar.getManifest().getMainAttributes().getValue("Main-Class");
             if (mainClass == null) {
                 throw new IllegalArgumentException("no main manifest attribute, in " + path);
+            } else {
+                return mainClass.replace(".", File.separator);
             }
-            return mainClass;
         } catch (IOException e) {
             String errorMessage = e instanceof ZipException
                 ? "Error: Invalid or corrupt jarfile "

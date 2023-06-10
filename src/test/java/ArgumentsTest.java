@@ -102,14 +102,14 @@ public class ArgumentsTest {
     void testJar() {
         String[] args = new String[]{"-jar", "src/test/resources/bocchi.jar"};
         Arguments arguments = new Arguments(args);
-        assertEquals("bocchi.the.rock.Bocchi", arguments.getMainClass());
+        assertEquals("bocchi/the/rock/Bocchi", arguments.getMainClass());
     }
 
     @Test
     void testJarWithArguments() {
         String[] args = new String[]{"-jar", "src/test/resources/bocchi.jar", "Ryou", "Nijika", "Ikuyo"};
         Arguments arguments = new Arguments(args);
-        assertEquals("bocchi.the.rock.Bocchi", arguments.getMainClass());
+        assertEquals("bocchi/the/rock/Bocchi", arguments.getMainClass());
         assertArrayEquals(new String[]{"Ryou", "Nijika", "Ikuyo"}, arguments.getMainClassArgs());
     }
 }
