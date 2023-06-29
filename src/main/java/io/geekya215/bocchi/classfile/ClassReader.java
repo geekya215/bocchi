@@ -1,17 +1,14 @@
 package io.geekya215.bocchi.classfile;
 
+import io.geekya215.bocchi.ByteReader;
 import io.geekya215.bocchi.classfile.attribute.AttributeInfo;
 import io.geekya215.bocchi.classfile.contantpool.ConstantPoolInfo;
 
-import java.util.Objects;
-
 public final class ClassReader {
-    private final byte[] bytes;
-    private int index;
+    private final ByteReader byteReader;
 
     public ClassReader(byte[] bytes) {
-        this.bytes = bytes;
-        this.index = 0;
+        this.byteReader = ByteReader.create(bytes);
     }
 
     public ClassFile parse() {
@@ -129,7 +126,7 @@ public final class ClassReader {
         FieldInfo[] fields = new FieldInfo[fieldsCount];
 
         for (int i = 0; i < fieldsCount; i++) {
-            fields[i] = FieldInfo.create(classFile.getConstantPool(), this);
+            fields[i] = FieldInfo.build(classFile.getConstantPool(), this);
         }
 
         classFile.setFields(fields);
@@ -145,7 +142,7 @@ public final class ClassReader {
         MethodInfo[] methods = new MethodInfo[methodsCount];
 
         for (int i = 0; i < methodsCount; i++) {
-            methods[i] = MethodInfo.create(classFile.getConstantPool(), this);
+            methods[i] = MethodInfo.build(classFile.getConstantPool(), this);
         }
 
         classFile.setMethods(methods);
@@ -170,44 +167,18 @@ public final class ClassReader {
     }
 
     public int readU1() {
-        Objects.checkIndex(index, bytes.length);
-
-        int u1 = bytes[index] & 0xff;
-
-        index += 1;
-
-        return u1;
+        return byteReader.readU1();
     }
 
     public int readU2() {
-        Objects.checkIndex(index + 1, bytes.length);
-
-        int u2 = (bytes[index] & 0xff) << 8 | (bytes[index + 1] & 0xff);
-
-        index += 2;
-
-        return u2;
+        return byteReader.readU2();
     }
 
     public long readU4() {
-        Objects.checkIndex(index + 3, bytes.length);
-
-        long u4 = (bytes[index    ] & 0xffL) << 24 |
-                  (bytes[index + 1] & 0xffL) << 16 |
-                  (bytes[index + 2] & 0xffL) <<  8 |
-                  (bytes[index + 3] & 0xffL);
-
-        index += 4;
-
-        return u4;
+        return byteReader.readU4();
     }
 
     public byte[] readNBytes(int size) {
-        Objects.checkFromIndexSize(index, size, bytes.length);
-        byte[] NBytes = new byte[size];
-        System.arraycopy(bytes, index, NBytes, 0, size);
-
-        index += size;
-        return NBytes;
+        return byteReader.readNBytes(size);
     }
 }

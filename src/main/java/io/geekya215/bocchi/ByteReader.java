@@ -19,44 +19,44 @@ public final class ByteReader {
 
     public int readU1() {
         Objects.checkIndex(cursor, bytes.length);
-        int u1 = bytes[cursor];
+        int u1 = bytes[cursor] & 0xff;
         cursor += 1;
         return u1;
     }
 
     public int readU1(int index) {
         Objects.checkIndex(index, bytes.length);
-        return bytes[index];
+        return bytes[index] & 0xff;
     }
 
     public int readU2() {
         Objects.checkIndex(cursor + 1, bytes.length);
-        int u2 = bytes[cursor] << 8 | bytes[cursor + 1];
+        int u2 = (bytes[cursor] & 0xff) << 8 | (bytes[cursor + 1] & 0xff);
         cursor += 2;
         return u2;
     }
 
     public int readU2(int index) {
         Objects.checkIndex(index + 1, bytes.length);
-        return bytes[index + 1] << 8 | bytes[index];
+        return (bytes[index] & 0xff) << 8 | (bytes[index + 1] & 0xff);
     }
 
     public long readU4() {
         Objects.checkIndex(cursor + 3, bytes.length);
-        long u4 = bytes[cursor    ] & 0xffffffffL << 24 |
-                  bytes[cursor + 1] & 0xffffffffL << 16 |
-                  bytes[cursor + 2] & 0xffffffffL <<  8 |
-                  bytes[cursor + 3] & 0xffffffffL;
-        cursor += 3;
+        long u4 = (bytes[cursor    ] & 0xffL) << 24 |
+                  (bytes[cursor + 1] & 0xffL) << 16 |
+                  (bytes[cursor + 2] & 0xffL) <<  8 |
+                  (bytes[cursor + 3] & 0xffL);
+        cursor += 4;
         return u4;
     }
 
     public long readU4(int index) {
         Objects.checkIndex(index + 3, bytes.length);
-        return bytes[index    ] & 0xffffffffL << 24 |
-               bytes[index + 1] & 0xffffffffL << 16 |
-               bytes[index + 2] & 0xffffffffL <<  8 |
-               bytes[index + 3] & 0xffffffffL;
+        return (bytes[index    ] & 0xffL) << 24 |
+               (bytes[index + 1] & 0xffL) << 16 |
+               (bytes[index + 2] & 0xffL) <<  8 |
+               (bytes[index + 3] & 0xffL);
     }
 
     public byte[] readNBytes(int len) {

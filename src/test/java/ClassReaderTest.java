@@ -1,3 +1,4 @@
+import io.geekya215.bocchi.AccessFlags;
 import io.geekya215.bocchi.classfile.ClassFile;
 import io.geekya215.bocchi.classfile.ClassReader;
 import io.geekya215.bocchi.classfile.FieldInfo;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static io.geekya215.bocchi.AccessFlags.*;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -130,12 +132,12 @@ public class ClassReaderTest {
         assertEquals(5, fields.length);
 
         FieldInfo guitarist = fields[0];
-        assertEquals(FieldInfo.ACC_PRIVATE, guitarist.getAccessFlags());
+        assertEquals(FIELD_ACC_PRIVATE, guitarist.getAccessFlags());
         checkUTF8(guitarist.getNameIndex(), "guitarist");
         checkUTF8(guitarist.getDescriptorIndex(), "Ljava/lang/String;");
 
         FieldInfo bassist = fields[1];
-        assertEquals(FieldInfo.ACC_PUBLIC | FieldInfo.ACC_FINAL, bassist.getAccessFlags());
+        assertEquals(FIELD_ACC_PUBLIC | FIELD_ACC_FINAL, bassist.getAccessFlags());
         checkUTF8(bassist.getNameIndex(), "bassist");
         checkUTF8(bassist.getDescriptorIndex(), "Ljava/lang/String;");
         assertEquals(1, bassist.getAttributesCount());
@@ -144,7 +146,7 @@ public class ClassReaderTest {
         checkString(((ConstantValueAttribute) bassistAttribute).getConstantValueIndex(), "Ryou");
 
         FieldInfo drummer = fields[2];
-        assertEquals(FieldInfo.ACC_PUBLIC | FieldInfo.ACC_FINAL, drummer.getAccessFlags());
+        assertEquals(FIELD_ACC_PUBLIC | FIELD_ACC_FINAL, drummer.getAccessFlags());
         checkUTF8(drummer.getNameIndex(), "drummer");
         checkUTF8(drummer.getDescriptorIndex(), "Ljava/lang/String;");
         assertEquals(1, drummer.getAttributesCount());
@@ -154,7 +156,7 @@ public class ClassReaderTest {
 
 
         FieldInfo vocalist = fields[3];
-        assertEquals(FieldInfo.ACC_PUBLIC | FieldInfo.ACC_FINAL, vocalist.getAccessFlags());
+        assertEquals(FIELD_ACC_PUBLIC | FIELD_ACC_FINAL, vocalist.getAccessFlags());
         checkUTF8(vocalist.getNameIndex(), "vocalist");
         checkUTF8(vocalist.getDescriptorIndex(), "Ljava/lang/String;");
         assertEquals(1, vocalist.getAttributesCount());
@@ -163,7 +165,7 @@ public class ClassReaderTest {
         checkString(((ConstantValueAttribute) vocalistAttribute).getConstantValueIndex(), "Ikuyo");
 
         FieldInfo number = fields[4];
-        assertEquals(FieldInfo.ACC_PUBLIC, number.getAccessFlags());
+        assertEquals(FIELD_ACC_PUBLIC, number.getAccessFlags());
         checkUTF8(number.getNameIndex(), "number");
         checkUTF8(number.getDescriptorIndex(), "I");
         assertEquals(0, number.getAttributesCount());
@@ -183,17 +185,17 @@ public class ClassReaderTest {
         assertEquals(3, methods.length);
 
         MethodInfo init = methods[0];
-        assertEquals(MethodInfo.ACC_PUBLIC, init.getAccessFlags());
+        assertEquals(METHOD_ACC_PUBLIC, init.getAccessFlags());
         checkUTF8(init.getNameIndex(), "<init>");
         checkUTF8(init.getDescriptorIndex(), "()V");
 
         MethodInfo location = methods[1];
-        assertEquals(MethodInfo.ACC_PUBLIC, location.getAccessFlags());
+        assertEquals(METHOD_ACC_PUBLIC, location.getAccessFlags());
         checkUTF8(location.getNameIndex(), "location");
         checkUTF8(location.getDescriptorIndex(), "()Ljava/lang/String;");
 
         MethodInfo main = methods[2];
-        assertEquals(MethodInfo.ACC_PUBLIC | MethodInfo.ACC_STATIC, main.getAccessFlags());
+        assertEquals(METHOD_ACC_PUBLIC | METHOD_ACC_STATIC, main.getAccessFlags());
         checkUTF8(main.getNameIndex(), "main");
         checkUTF8(main.getDescriptorIndex(), "([Ljava/lang/String;)V");
     }
