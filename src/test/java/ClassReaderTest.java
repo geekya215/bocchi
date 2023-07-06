@@ -83,7 +83,7 @@ public class ClassReaderTest {
     @Test
     void testAccessFlags() {
         int actual = classfile.getAccessFlags();
-        int expected = ClassFile.ACC_PUBLIC | ClassFile.ACC_FINAL | ClassFile.ACC_SUPER;
+        int expected = CLASS_ACC_PUBLIC | CLASS_ACC_FINAL | CLASS_ACC_SUPER;
         assertEquals(expected, actual);
     }
 
